@@ -7,7 +7,8 @@ perform basic arthitmetic with ellipsis numbers
 ~~~
 
 
-NOTE: ellipsis numbers are not p-adic numbers (10-adic/p-adic number do not lay on the real number line)
+NOTE: ellipsis numbers are not p-adic numbers
+(10-adic/p-adic number do not lay on the real number line)
 
 Ellipsis calc>: 10 ++ 666
 676
