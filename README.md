@@ -2,7 +2,7 @@
 
 ellipsis.py  (c) 2024 Rene Oudeweg 
 
-perform basic arthitmetic with ellipsis numbers
+perform basic artithmetic with ellipsis numbers
 
 ~~~
 
