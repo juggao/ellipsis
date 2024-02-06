@@ -218,7 +218,7 @@ class ArithmeticVisitor(ParseTreeVisitor):
                 #    if are_all_digits_same(ctx.EINT().getText()[4:]):
                 #        sn = '-1'
                 #        return sn
-                for x in range(1,MAXRANGE):
+                for x in range(0,MAXRANGE-len(ctx.EINT().getText()[4:])):
                     sn += ctx.EINT().getText()[3]
                 sn += ctx.EINT().getText()[4:]
                 #frac = parse_recurring_10adic_number(ctx.EINT().getText())
