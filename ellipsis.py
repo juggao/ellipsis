@@ -66,13 +66,50 @@ def divide_with_remainder(dividend, divisor):
     quotient = quotient[next((i for i, x in enumerate(quotient) if x != 0), len(quotient)):] or [0]
     return ''.join(map(str, quotient)), remainder
 
-def subtract_with_borrow(num1, num2):
+def subtract(minuend_str, subtrahend_str):
+    result = []
+    sign = 1  # 1 for positive, -1 for negative
+
+    # Determine sign based on the values of minuend and subtrahend
+    if int(minuend_str) < int(subtrahend_str):
+        minuend_str, subtrahend_str = subtrahend_str, minuend_str
+        sign = -1
+
+    borrow = 0
+    length = max(len(minuend_str), len(subtrahend_str))
+    minuend_str = minuend_str.zfill(length)
+    subtrahend_str = subtrahend_str.zfill(length)
+    for min_digit, sub_digit in zip(minuend_str[::-1], subtrahend_str[::-1]):
+        min_value = int(min_digit)
+        sub_value = int(sub_digit)
+
+        diff = min_value - sub_value - borrow
+
+        if diff < 0:
+            diff += 10
+            borrow = 1
+        else:
+            borrow = 0
+
+        result.append(str(diff))
+
+    # Reverse the result and apply the sign
+    result_str = ''.join(result[::-1])
+    return str(sign * int(result_str))
+
+
+def subtract_with_borrow_bug(num1, num2):
     result = []
     borrow = 0
 
     # Determine the sign of the numbers
     sign1 = 1 if num1[0] != '-' else -1
     sign2 = 1 if num2[0] != '-' else -1
+    if sign1 == -1:
+        num1 = num1[1:]
+    if sign2 == -1:
+        num2 = num2[1:]
+
     # Make the lengths of num1 and num2 equal by adding leading zeros
     length = max(len(num1), len(num2))
     num1 = num1.zfill(length)
@@ -97,6 +134,10 @@ def add_with_carry(num1, num2):
     # Determine the sign of the numbers
     sign1 = 1 if num1[0] != '-' else -1
     sign2 = 1 if num2[0] != '-' else -1
+    if sign1 == -1:
+        num1 = num1[1:]
+    if sign2 == -1:
+        num2 = num2[1:]
 
     # Make the lengths of num1 and num2 equal by adding leading zeros
     length = max(len(num1), len(num2))
@@ -142,7 +183,7 @@ class ArithmeticVisitor(ParseTreeVisitor):
             if ctx.getChild(1).symbol.text == '--':
                 if ctx.term().factor().NINT()!=None:
                     return str(int(left) - int(right)) 
-                return subtract_with_borrow(left,right)           
+                return subtract(left,right)           
             
         return self.visit(ctx.term())
 
@@ -289,16 +330,21 @@ def main():
                     add_to_history(ssum)
                 # Process the user input
                 input_stream = InputStream(ssum)
-                try:
-                    lexer = SimpleArithmeticLexer(input_stream)
-                    stream = CommonTokenStream(lexer)
-                    parser = SimpleArithmeticParser(stream)
-                    tree = parser.start()
-                    visitor = ArithmeticVisitor()
-                    result = visitor.visit(tree)
-                    print(result)
-                except Exception as e:
-                    printhelp()
+                
+                lexer = SimpleArithmeticLexer(input_stream)
+                stream = CommonTokenStream(lexer)
+                parser = SimpleArithmeticParser(stream)
+                tree = parser.start()
+                visitor = ArithmeticVisitor()
+                result = visitor.visit(tree)
+                if isinstance(result, tuple) == False:
+                    print(colored("Ellipsis calc>: ", 'red')+ result)
+                    add_to_history(result)
+                else:
+                    print(colored("Ellipsis calc>:", 'red') + f"{result}")
+
+                
+                
                 readline.write_history_file(history_file)            
     except Exception as e:
         print(e)
