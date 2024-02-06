@@ -331,17 +331,20 @@ def main():
                 # Process the user input
                 input_stream = InputStream(ssum)
                 
-                lexer = SimpleArithmeticLexer(input_stream)
-                stream = CommonTokenStream(lexer)
-                parser = SimpleArithmeticParser(stream)
-                tree = parser.start()
-                visitor = ArithmeticVisitor()
-                result = visitor.visit(tree)
-                if isinstance(result, tuple) == False:
-                    print(colored("Ellipsis calc>: ", 'red')+ result)
-                    add_to_history(result)
-                else:
-                    print(colored("Ellipsis calc>:", 'red') + f"{result}")
+                try:
+                    lexer = SimpleArithmeticLexer(input_stream)
+                    stream = CommonTokenStream(lexer)
+                    parser = SimpleArithmeticParser(stream)
+                    tree = parser.start()
+                    visitor = ArithmeticVisitor()
+                    result = visitor.visit(tree)
+                    if isinstance(result, tuple) == False:
+                        print(colored("Ellipsis calc>: ", 'red')+ result)
+                        add_to_history(result)
+                    else:
+                        print(colored("Ellipsis calc>:", 'red') + f"{result}")
+                except:
+                    pass
 
                 
                 
