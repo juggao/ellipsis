@@ -283,7 +283,7 @@ def parse_recurring_10adic_number(number_str):
 #print(f"The 10-adic number represented by '{ten_adic_number_str}' is: {ten_adic_number_value}")
 
 def printhelp():
-     print("\n\nellipsis.py 0.0.3 (c) 2024 Rene Oudeweg \n\nExamples:\n" 
+     print("\n\nellipsis.py 0.1 (c) 2024 Rene Oudeweg \n\nExamples:\n" 
            " 1 ++ 2\n ...111 ++ ...222\n ...999 -- 3\n ~~~123 * 8\n ~~~999 / 3" 
            f"\n\n Commands: help, conv, intrange (current: {MAXRANGE}), quit\n"
            "NOTE: ellipsis numbers are not p-adic numbers (10-adic/p-adic number do not lay on the real number line).\n")
